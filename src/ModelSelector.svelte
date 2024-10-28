@@ -221,7 +221,7 @@
 		>
 			<div
 				transition:scale={{ opacity: 0, start: 0.98, duration: 100, easing: cubicIn }}
-				class="pointer-events-auto min-w-[240px] rounded-lg border border-slate-300 bg-white"
+				class="pointer-events-auto min-w-[240px] max-w-[85vw] rounded-lg border border-slate-300 bg-white"
 			>
 				<input
 					bind:this={inputEl}
