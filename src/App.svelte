@@ -52,6 +52,7 @@
 		fePaperclip,
 		fePlus,
 		feRefreshCw,
+    feSave,
 		feSettings,
 		feShare,
 		feSidebar,
@@ -1759,11 +1760,26 @@ ${file.text}
 																on:click={async () => {
 																	convo.messages[i].unclosed = true;
 																	saveMessage(convo.messages[i]);
+                                  convo.messages[i].content = convo.messages[i].pendingContent;
+                                  convo.messages[i].pendingContent = '';
+                                  convo.messages[i].editing = false;
+																}}
+															>
+																<Icon icon={feSave} class="h-3.5 w-3.5 text-slate-600" />
+																<span class="text-xs text-slate-600">Save</span>
+															</button>
+														{/if}
+														{#if message.role === 'assistant' && message.pendingContent && message.pendingContent !== message.content && message.content !== '...' && i === convo.messages.length - 1}
+															<button
+																class="flex items-center gap-x-1.5 rounded-full bg-green-50 px-3 py-2 hover:bg-green-100"
+																on:click={async () => {
+																	convo.messages[i].unclosed = true;
+																	saveMessage(convo.messages[i]);
 																	submitCompletion(false);
 																}}
 															>
 																<Icon icon={feMoreHorizontal} class="h-3.5 w-3.5 text-slate-600" />
-																<span class="text-xs text-slate-600">Pre-filled response</span>
+																<span class="text-xs text-slate-600">Prefill</span>
 															</button>
 														{/if}
 														<button
