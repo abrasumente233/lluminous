@@ -6,6 +6,7 @@ import {
 	remoteServer,
 	mistralAPIKey,
 	anthropicAPIKey,
+  fireworksAPIKey,
 } from './stores.js';
 
 export const providers = [
@@ -38,6 +39,12 @@ export const providers = [
 		url: 'https://api.mistral.ai',
 		completionUrl: '/v1/chat/completions',
 		apiKeyFn: () => get(mistralAPIKey),
+	},
+	{
+		name: 'Fireworks',
+		url: 'https://api.fireworks.ai/inference',
+		completionUrl: '/v1/chat/completions',
+		apiKeyFn: () => get(fireworksAPIKey),
 	},
 	{
 		name: 'Local',
@@ -195,6 +202,7 @@ export const priorityOrder = [
 			'openai/gpt-4-32k-0314',
 		],
 	},
+	{ fromProvider: 'Fireworks' },
 	{ fromProvider: 'Mistral' },
 	{ startsWith: ['mistralai/'] },
 ];
