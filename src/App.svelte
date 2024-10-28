@@ -1852,6 +1852,7 @@ ${file.text}
 																textareaEls[i].style.height = 'auto';
 																textareaEls[i].style.height = textareaEls[i].scrollHeight + 'px';
 																textareaEls[i].focus();
+																textareaEls[i].select();
 																saveMessage(convo.messages[i]);
 															}}
 														>
