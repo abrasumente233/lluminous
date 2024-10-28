@@ -1255,16 +1255,16 @@ ${file.text}
 			</p>
 		{/if}
 
-		<button
-			class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100"
-			use:flash
-			on:click={shareConversation}
-		>
-			<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
-		</button>
+		<!-- <button -->
+		<!-- 	class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100" -->
+		<!-- 	use:flash -->
+		<!-- 	on:click={shareConversation} -->
+		<!-- > -->
+		<!-- 	<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" /> -->
+		<!-- </button> -->
 		<button
 			data-trigger="knobs"
-			class="flex rounded-full p-2 transition-colors hover:bg-gray-100"
+			class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100"
 			on:click={() => (knobsOpen = !knobsOpen)}
 		>
 			<Icon icon={feSidebar} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
@@ -1403,16 +1403,16 @@ ${file.text}
 					</p>
 				{/if}
 
-				<button
-					class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100"
-					use:flash
-					on:click={shareConversation}
-				>
-					<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
-				</button>
+				<!-- <button -->
+				<!-- 	class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100" -->
+				<!-- 	use:flash -->
+				<!-- 	on:click={shareConversation} -->
+				<!-- > -->
+				<!-- 	<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" /> -->
+				<!-- </button> -->
 				<button
 					data-trigger="knobs"
-					class="flex rounded-full p-3 transition-colors hover:bg-gray-100"
+					class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100"
 					on:click={() => (knobsOpen = !knobsOpen)}
 				>
 					<Icon icon={feSidebar} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
