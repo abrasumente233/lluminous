@@ -30,6 +30,114 @@
 
 	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
 		<div class="mb-2 ml-[3px] flex items-baseline">
+			<span>Min P</span>
+			<span class="ml-auto">{$params.min_p}</span>
+		</div>
+		<input
+			type="range"
+			min={0}
+			max={1}
+			bind:value={$params.min_p}
+			step={0.01}
+			class="appearance-none overflow-hidden rounded-full border border-slate-300
+				[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-100
+				[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+			[&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:shadow-[-407px_0_0_404px_theme('colors.slate.200')]"
+		/>
+	</label>
+
+	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
+		<div class="mb-2 ml-[3px] flex items-baseline">
+			<span>Top P</span>
+			<span class="ml-auto">{$params.top_p}</span>
+		</div>
+		<input
+			type="range"
+			min={0}
+			max={1}
+			bind:value={$params.top_p}
+			step={0.025}
+			class="appearance-none overflow-hidden rounded-full border border-slate-300
+				[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-100
+				[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+			[&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:shadow-[-407px_0_0_404px_theme('colors.slate.200')]"
+		/>
+	</label>
+
+	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
+		<div class="mb-2 ml-[3px] flex items-baseline">
+			<span>Top K</span>
+			<span class="ml-auto">{$params.top_k}</span>
+		</div>
+		<input
+			type="range"
+			min={0}
+			max={1000}
+			bind:value={$params.top_k}
+			step={1}
+			class="appearance-none overflow-hidden rounded-full border border-slate-300
+				[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-100
+				[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+			[&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:shadow-[-407px_0_0_404px_theme('colors.slate.200')]"
+		/>
+	</label>
+
+	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
+		<div class="mb-2 ml-[3px] flex items-baseline">
+			<span>Repetition Penalty</span>
+			<span class="ml-auto">{$params.repetition_penalty}</span>
+		</div>
+		<input
+			type="range"
+			min={0.01}
+			max={2}
+			bind:value={$params.repetition_penalty}
+			step={0.01}
+			class="appearance-none overflow-hidden rounded-full border border-slate-300
+				[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-100
+				[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+			[&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:shadow-[-407px_0_0_404px_theme('colors.slate.200')]"
+		/>
+	</label>
+  
+	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
+		<div class="mb-2 ml-[3px] flex items-baseline">
+			<span>Presence Penalty</span>
+			<span class="ml-auto">{$params.presence_penalty}</span>
+		</div>
+		<input
+			type="range"
+			min={0}
+			max={2}
+			bind:value={$params.presence_penalty}
+			step={0.01}
+			class="appearance-none overflow-hidden rounded-full border border-slate-300
+				[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-100
+				[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+			[&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:shadow-[-407px_0_0_404px_theme('colors.slate.200')]"
+		/>
+	</label>
+
+	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
+		<div class="mb-2 ml-[3px] flex items-baseline">
+			<span>Frequency Penalty</span>
+			<span class="ml-auto">{$params.frequency_penalty}</span>
+		</div>
+		<input
+			type="range"
+			min={0}
+			max={2}
+			bind:value={$params.frequency_penalty}
+			step={0.01}
+			class="appearance-none overflow-hidden rounded-full border border-slate-300
+				[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-100
+				[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+			[&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:shadow-[-407px_0_0_404px_theme('colors.slate.200')]"
+		/>
+	</label>
+
+	<label class="mb-4 flex flex-col text-[10px] uppercase tracking-wide">
+		<div class="mb-2 ml-[3px] flex items-baseline">
 			<span>Max Tokens Generated</span>
 		</div>
 		<input

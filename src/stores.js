@@ -5,6 +5,12 @@ export const controller = writable(null);
 
 export const params = persisted('params', {
 	temperature: 0.3,
+	min_p: 0,
+  top_p: 1,
+  top_k: 0,
+  repetition_penalty: 1.0,
+  presence_penalty: 0.0,
+  frequency_penalty: 0.0,
 	maxTokens: 0,
 	messagesContextLimit: 0,
 });

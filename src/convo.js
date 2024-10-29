@@ -107,6 +107,12 @@ export async function complete(convo, onupdate, onabort) {
 					stream: true,
 					model: convo.model.id,
 					temperature: param.temperature,
+          min_p: param.min_p,
+          top_p: param.top_p,
+          top_k: param.top_k,
+          repetition_penalty: param.repetition_penalty,
+          presence_penalty: param.presence_penalty,
+          frequency_penalty: param.frequency_penalty,
 					max_tokens:
 						param.maxTokens != null && param.maxTokens > 0
 							? param.maxTokens
