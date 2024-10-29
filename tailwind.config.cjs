@@ -1,4 +1,5 @@
 const typography = require('@tailwindcss/typography');
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 function scrollbarsPlugin({ addUtilities }) {
 	addUtilities({
@@ -65,6 +66,9 @@ const config = {
 
 	theme: {
 		extend: {
+      fontFamily: {
+        'sans': ['merriweather', ...defaultTheme.fontFamily.sans],
+      },
 			screens: {
 				md: '880px',
 				ld: '1215px',
