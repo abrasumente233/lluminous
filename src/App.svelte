@@ -2237,19 +2237,54 @@ ${file.text}
 	}
 
 	:global(.markdown.prose :where(p):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
-		@apply my-3;
+		@apply mt-0 mb-3;
 	}
+
+  :global(
+      .markdown.prose
+        :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"],[class~="not-prose"] *))
+    ) {
+    @apply mt-0 mb-3;
+  }
+
+  :global(
+      .markdown.prose
+        :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *))
+    ) {
+    @apply mt-0 mb-3;
+  }
+
+  :global(
+      .markdown.prose
+        :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"],[class~="not-prose"] *))
+    ) {
+    @apply my-3;
+  }
+
+  :global(
+      .markdown.prose
+        :where(hr):not(:where([class~="not-prose"],[class~="not-prose"] *))
+    ) {
+    @apply my-6;
+  }
+
+  :global(
+      .markdown.prose
+        :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *))
+    ) {
+    @apply font-normal not-italic;
+  }
 
 	:global(
 			.markdown.prose
-				:where(.prose > :first-child):not(:where([class~='not-prose'], [class~='not-prose'] *))
+				:where(.prose > :first-child, .prose blockquote > :first-child):not(:where([class~='not-prose'], [class~='not-prose'] *))
 		) {
 		@apply mt-0;
 	}
 
 	:global(
 			.markdown.prose
-				:where(.prose > :last-child):not(:where([class~='not-prose'], [class~='not-prose'] *))
+				:where(.prose > :last-child, .prose blockquote > :first-child):not(:where([class~='not-prose'], [class~='not-prose'] *))
 		) {
 		@apply mb-0;
 	}
