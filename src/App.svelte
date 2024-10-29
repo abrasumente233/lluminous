@@ -54,7 +54,7 @@
     feSave,
 		feSettings,
 		feShare,
-		feSidebar,
+    feSliders,
 		feSquare,
 		feTrash,
 		feUser,
@@ -1261,7 +1261,7 @@ ${file.text}
 			class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100"
 			on:click={() => (knobsOpen = !knobsOpen)}
 		>
-			<Icon icon={feSidebar} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
+			<Icon icon={feSliders} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
 		</button>
 		<button
 			on:click={newConversation}
@@ -1415,7 +1415,7 @@ ${file.text}
 					class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100"
 					on:click={() => (knobsOpen = !knobsOpen)}
 				>
-					<Icon icon={feSidebar} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
+					<Icon icon={feSliders} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
 				</button>
 			</div>
 
