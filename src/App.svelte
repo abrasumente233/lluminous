@@ -1205,12 +1205,6 @@ ${file.text}
 <main class="flex h-dvh w-screen flex-col">
 	<div class="flex h-12 items-center gap-1 px-2 py-1 md:hidden">
 		<button
-			on:click={newConversation}
-			class="flex rounded-full p-2 transition-colors hover:bg-gray-100"
-		>
-			<Icon icon={fePlus} strokeWidth={3} class="ml-auto h-4 w-4 text-slate-700" />
-		</button>
-		<button
 			data-trigger="history"
 			class="flex rounded-full p-2 transition-colors hover:bg-gray-100"
 			on:click={() => (historyOpen = !historyOpen)}
@@ -1268,6 +1262,12 @@ ${file.text}
 			on:click={() => (knobsOpen = !knobsOpen)}
 		>
 			<Icon icon={feSidebar} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
+		</button>
+		<button
+			on:click={newConversation}
+			class="flex rounded-full p-2 transition-colors hover:bg-gray-100"
+		>
+			<Icon icon={fePlus} strokeWidth={3} class="ml-auto h-4 w-4 text-slate-700" />
 		</button>
 	</div>
 	<div class="relative flex h-full flex-1 overflow-hidden">
