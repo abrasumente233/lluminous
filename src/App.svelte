@@ -47,7 +47,6 @@
 		feCpu,
 		feEdit2,
 		feMenu,
-		feMessageCircle,
 		feMoreHorizontal,
 		fePaperclip,
 		fePlus,
@@ -1514,10 +1513,11 @@ ${file.text}
 											{#if i === 0 && message.role !== 'system'}
 												<Button
 													variant="outline"
-													class="absolute left-1/2 top-0 z-[98] -translate-x-1/2 border-dashed text-xs opacity-0 transition-[border-color,opacity] group-hover:opacity-100"
+													class="absolute left-1/2 top-0 z-[98] -translate-x-1/2 border-dashed text-xs opacity-0 transition-[border-color,opacity] group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:opacity-50"
 													on:click={insertSystemPrompt}
+                          disabled={generating}
 												>
-													<Icon icon={feMessageCircle} class="mr-2 h-3 w-3 text-slate-600" />
+													<Icon icon={feSettings} class="mr-2 h-3 w-3 text-slate-600" />
 													Add system prompt
 												</Button>
 											{:else if i === 1 && convo.messages[i - 1].role === 'system' && convo.messages[i - 1].customInstructions && !convo.messages[i - 1].showCustomInstructions}
@@ -1564,7 +1564,7 @@ ${file.text}
 													{:else}
 														<span class="m-auto">
 															{#if message.role === 'system'}
-																<Icon icon={feMessageCircle} class="h-4 w-4 text-slate-800" />
+																<Icon icon={feSettings} class="h-4 w-4 text-slate-800" />
 															{:else if message.role === 'assistant'}
 																<Icon icon={feCpu} class="h-4 w-4 text-slate-800" />
 															{:else}
@@ -1960,7 +1960,7 @@ ${file.text}
 								class="z-[98] mx-auto border-dashed text-xs"
 								on:click={insertSystemPrompt}
 							>
-								<Icon icon={feMessageCircle} class="mr-2 h-3 w-3 text-slate-600" />
+								<Icon icon={feSettings} class="mr-2 h-3 w-3 text-slate-600" />
 								Add system prompt
 							</Button>
 						{/if}
