@@ -1199,6 +1199,14 @@ ${file.text}
 		) {
 			$controller.abort();
 		}
+
+    if (
+      (event.key === 'k' && (event.metaKey || event.ctrlKey)) ||
+      (event.key === 'o' && (event.metaKey || event.ctrlKey) && event.shiftKey)
+    ) {
+      event.preventDefault();
+      newConversation();
+    }
 	}}
 />
 
