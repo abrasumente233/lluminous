@@ -11,7 +11,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <svelte:element
 	this={element}
-	class="{outerClass} group/file bg-white flex flex-col gap-2 self-start rounded-lg border border-slate-200 transition-colors hover:border-slate-300"
+	class="{outerClass} group/file bg-white flex flex-col gap-2 self-start rounded-lg border border-slate-200 transition-colors hover:border-slate-300 mb-3"
 	on:click
 >
 	<div class="absolute right-[-1px] top-[-1px] bg-white">
