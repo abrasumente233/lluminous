@@ -1610,7 +1610,7 @@ ${file.text}
 														}}
 													/>
 												{:else}
-													<div class="flex w-full flex-col gap-6">
+													<div class="flex w-full flex-col gap-6 overflow-x-auto">
 														{#if !$config.explicitToolView}
 															{@const collapsedRange = collapsedRanges.find((r) => i === r.endi)}
 															{#if collapsedRange}
