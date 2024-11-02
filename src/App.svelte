@@ -10,7 +10,7 @@
 
 	import { persisted } from './localstorage.js';
 	import { getRelativeDate } from './date.js';
-	import { compressAndEncode, decodeAndDecompress } from './share.js';
+	import { compressAndEncode, decodeAndDecompress, generateUrlSafePassword } from './share.js';
 	import {
 		formatModelName,
 		providers,
@@ -24,13 +24,7 @@
 	} from './providers.js';
 	import ModelSelector from './ModelSelector.svelte';
 	import CompanyLogo from './CompanyLogo.svelte';
-	import {
-		controller,
-		remoteServer,
-		config,
-		params,
-		toolSchema,
-	} from './stores.js';
+	import { controller, remoteServer, config, params, toolSchema } from './stores.js';
 	import SettingsModal from './SettingsModal.svelte';
 	import ToolcallButton from './ToolcallButton.svelte';
 	import MessageContent from './MessageContent.svelte';
@@ -51,10 +45,10 @@
 		fePaperclip,
 		fePlus,
 		feRefreshCw,
-    feSave,
+		feSave,
 		feSettings,
 		feShare,
-    feSliders,
+		feSliders,
 		feSquare,
 		feTrash,
 		feUser,
@@ -786,10 +780,18 @@ ${file.text}
 		event.currentTarget.dispatchEvent(new CustomEvent('flashSuccess'));
 
 		const sharePromise = new Promise(async (resolve) => {
-			const encoded = await compressAndEncode({
+			const password = generateUrlSafePassword(16);
+			console.log({
 				model: convo.model,
 				messages: convo.messages,
 			});
+			const encoded = await compressAndEncode(
+				{
+					model: convo.model,
+					messages: convo.messages,
+				},
+				password
+			);
 			const share = `${window.location.protocol}//${window.location.host}/?s=${encoded}`;
 			if (share.length > 200) {
 				const data = new FormData();
@@ -802,10 +804,12 @@ ${file.text}
 
 				const shortenedLink = await response.text();
 				resolve(
-					`${window.location.protocol}//${window.location.host}/?sl=${shortenedLink.split('/').reverse()[1]}`
+					`${window.location.protocol}//${window.location.host}/?sl=${shortenedLink.split('/').reverse()[1]}&key=${password}`
 				);
 			} else {
-				resolve(`${window.location.protocol}//${window.location.host}/?s=${encoded}`);
+				resolve(
+					`${window.location.protocol}//${window.location.host}/?s=${encoded}&key=${password}`
+				);
 			}
 		});
 
@@ -821,6 +825,12 @@ ${file.text}
 
 	async function restoreConversation() {
 		const params = new URLSearchParams(window.location.search);
+
+		if (!params.has('key')) {
+			return false;
+		}
+		const password = params.get('key');
+
 		let share;
 		if (params.has('s')) {
 			share = params.get('s');
@@ -833,7 +843,7 @@ ${file.text}
 		}
 
 		try {
-			let decoded = await decodeAndDecompress(share);
+			let decoded = await decodeAndDecompress(share, password);
 			if (Array.isArray(decoded)) {
 				decoded = { name: 'Shared conversation', messages: decoded };
 			}
@@ -1200,13 +1210,13 @@ ${file.text}
 			$controller.abort();
 		}
 
-    if (
-      (event.key === 'k' && (event.metaKey || event.ctrlKey)) ||
-      (event.key === 'o' && (event.metaKey || event.ctrlKey) && event.shiftKey)
-    ) {
-      event.preventDefault();
-      newConversation();
-    }
+		if (
+			(event.key === 'k' && (event.metaKey || event.ctrlKey)) ||
+			(event.key === 'o' && (event.metaKey || event.ctrlKey) && event.shiftKey)
+		) {
+			event.preventDefault();
+			newConversation();
+		}
 	}}
 />
 
@@ -1257,16 +1267,16 @@ ${file.text}
 			</p>
 		{/if}
 
-		<!-- <button -->
-		<!-- 	class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100" -->
-		<!-- 	use:flash -->
-		<!-- 	on:click={shareConversation} -->
-		<!-- > -->
-		<!-- 	<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" /> -->
-		<!-- </button> -->
+		<button
+			class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100"
+			use:flash
+			on:click={shareConversation}
+		>
+			<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
+		</button>
 		<button
 			data-trigger="knobs"
-			class="ml-auto flex rounded-full p-2 transition-colors hover:bg-gray-100"
+			class="flex rounded-full p-2 transition-colors hover:bg-gray-100"
 			on:click={() => (knobsOpen = !knobsOpen)}
 		>
 			<Icon icon={feSliders} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
@@ -1411,16 +1421,16 @@ ${file.text}
 					</p>
 				{/if}
 
-				<!-- <button -->
-				<!-- 	class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100" -->
-				<!-- 	use:flash -->
-				<!-- 	on:click={shareConversation} -->
-				<!-- > -->
-				<!-- 	<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" /> -->
-				<!-- </button> -->
+				<button
+					class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100"
+					use:flash
+					on:click={shareConversation}
+				>
+					<Icon icon={feShare} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
+				</button>
 				<button
 					data-trigger="knobs"
-					class="ml-auto flex rounded-full p-3 transition-colors hover:bg-gray-100"
+					class="flex rounded-full p-3 transition-colors hover:bg-gray-100"
 					on:click={() => (knobsOpen = !knobsOpen)}
 				>
 					<Icon icon={feSliders} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
@@ -1521,9 +1531,9 @@ ${file.text}
 											{#if i === 0 && message.role !== 'system'}
 												<Button
 													variant="outline"
-													class="absolute left-1/2 top-0 z-[98] -translate-x-1/2 border-dashed text-xs opacity-0 transition-[border-color,opacity] group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:opacity-50"
+													class="absolute left-1/2 top-0 z-[98] -translate-x-1/2 border-dashed text-xs opacity-0 transition-[border-color,opacity] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:opacity-50 group-hover:opacity-100"
 													on:click={insertSystemPrompt}
-                          disabled={generating}
+													disabled={generating}
 												>
 													<Icon icon={feSettings} class="mr-2 h-3 w-3 text-slate-600" />
 													Add system prompt
@@ -1768,9 +1778,9 @@ ${file.text}
 																on:click={async () => {
 																	convo.messages[i].unclosed = true;
 																	saveMessage(convo.messages[i]);
-                                  convo.messages[i].content = convo.messages[i].pendingContent;
-                                  convo.messages[i].pendingContent = '';
-                                  convo.messages[i].editing = false;
+																	convo.messages[i].content = convo.messages[i].pendingContent;
+																	convo.messages[i].pendingContent = '';
+																	convo.messages[i].editing = false;
 																}}
 															>
 																<Icon icon={feSave} class="h-3.5 w-3.5 text-slate-600" />
@@ -2245,54 +2255,53 @@ ${file.text}
 	}
 
 	:global(.markdown.prose :where(p):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
-		@apply mt-0 mb-3;
+		@apply mb-3 mt-0;
 	}
-
-  :global(
-      .markdown.prose
-        :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"],[class~="not-prose"] *))
-    ) {
-    @apply mt-0 mb-3;
-  }
-
-  :global(
-      .markdown.prose
-        :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *))
-    ) {
-    @apply mt-0 mb-3;
-  }
-
-  :global(
-      .markdown.prose
-        :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"],[class~="not-prose"] *))
-    ) {
-    @apply my-3;
-  }
-
-  :global(
-      .markdown.prose
-        :where(hr):not(:where([class~="not-prose"],[class~="not-prose"] *))
-    ) {
-    @apply my-6;
-  }
-
-  :global(
-      .markdown.prose
-        :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *))
-    ) {
-    @apply font-normal not-italic;
-  }
 
 	:global(
 			.markdown.prose
-				:where(.prose > :first-child, .prose blockquote > :first-child):not(:where([class~='not-prose'], [class~='not-prose'] *))
+				:where(ul ul, ul ol, ol ul, ol ol):not(:where([class~='not-prose'], [class~='not-prose'] *))
+		) {
+		@apply mb-3 mt-0;
+	}
+
+	:global(
+			.markdown.prose :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *))
+		) {
+		@apply mb-3 mt-0;
+	}
+
+	:global(
+			.markdown.prose
+				:where(h1, h2, h3, h4, h5, h6):not(:where([class~='not-prose'], [class~='not-prose'] *))
+		) {
+		@apply my-3;
+	}
+
+	:global(.markdown.prose :where(hr):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
+		@apply my-6;
+	}
+
+	:global(
+			.markdown.prose :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *))
+		) {
+		@apply font-normal not-italic;
+	}
+
+	:global(
+			.markdown.prose
+				:where(.prose > :first-child, .prose blockquote > :first-child):not(
+					:where([class~='not-prose'], [class~='not-prose'] *)
+				)
 		) {
 		@apply mt-0;
 	}
 
 	:global(
 			.markdown.prose
-				:where(.prose > :last-child, .prose blockquote > :first-child):not(:where([class~='not-prose'], [class~='not-prose'] *))
+				:where(.prose > :last-child, .prose blockquote > :first-child):not(
+					:where([class~='not-prose'], [class~='not-prose'] *)
+				)
 		) {
 		@apply mb-0;
 	}
