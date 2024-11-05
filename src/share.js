@@ -38,7 +38,11 @@ async function deriveKey(password, salt) {
 }
 
 function arrayBufferToBase64(buffer) {
-	return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+	return btoa(
+		new Uint8Array(buffer).reduce(function (data, byte) {
+			return data + String.fromCharCode(byte);
+		}, '')
+	);
 }
 
 function base64ToArrayBuffer(base64) {
