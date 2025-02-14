@@ -897,54 +897,33 @@ ${file.text}
 	}
 
 	let models = [];
-
-	async function fetchLoadedModel() {
-		try {
-			const response = await fetch(`${$remoteServer.address}/model`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Basic ${$remoteServer.password}`,
-				},
-			});
-			if (!response.ok) {
-				return;
-			}
-			const json = await response.json();
-
-			loadedModel = {
-				provider: 'Local',
-				id: json.model,
-				// Strip .gguf suffix:
-				name: json.model.replace(/\.gguf$/, ''),
-			};
-		} catch (error) {}
-	}
-
 	let loading = false;
 
 	async function fetchModels() {
 		loading = true;
 		try {
 			const promises = providers.map((provider) => {
-				if (!provider.apiKeyFn() && provider.name !== 'Local') {
+        const apiKey = provider.apiKeyFn();
+				if (apiKey === '') {
 					return [];
 				}
-				// Anthropic doesn't support the /v1/models endpoint, so we hardcode it:
-				if (provider.name === 'Anthropic') {
-					return anthropicModels;
+
+        // Some providers have hardcoded models
+				if (!provider.modelsUrl && provider.models) {
+					return provider.models;
 				}
 
-				return fetch(`${provider.url}/v1/models`, {
+				return fetch(`${provider.url}${provider.modelsUrl}`, {
 					method: 'GET',
 					headers: {
-						Authorization:
-							provider.name === 'Local'
-								? `Basic ${provider.apiKeyFn()}`
-								: `Bearer ${provider.apiKeyFn()}`,
+						Authorization: apiKey ? `Bearer ${apiKey}` : undefined,
 					},
 				})
 					.then((response) => response.json())
 					.then((json) => {
+            if (provider.responseMapperFn) {
+							return provider.responseMapperFn(json);
+						}
 						const externalModels = json.data.map((m) => ({
 							id: m.id,
 							name: m.name || m.id,
@@ -955,8 +934,8 @@ ${file.text}
 						}));
 						return externalModels;
 					})
-					.catch(() => {
-						console.log('Error fetching models from provider', provider.name);
+					.catch((err) => {
+						console.log('Error fetching models from provider', provider.name, err);
 						return [];
 					});
 			});
@@ -1136,7 +1115,6 @@ ${file.text}
 		initializePWAStyles();
 
 		// Async
-		fetchLoadedModel();
 		fetchModels();
 	});
 

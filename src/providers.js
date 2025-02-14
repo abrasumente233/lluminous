@@ -9,56 +9,23 @@ import {
   fireworksAPIKey,
 } from './stores.js';
 
-export const providers = [
-	{
-		name: 'OpenRouter',
-		url: 'https://openrouter.ai/api',
-		completionUrl: '/v1/chat/completions',
-		apiKeyFn: () => get(openrouterAPIKey),
-	},
-	{
-		name: 'Anthropic',
-		url: 'https://api.anthropic.com',
-		completionUrl: '/v1/messages',
-		apiKeyFn: () => get(anthropicAPIKey),
-	},
-	{
-		name: 'OpenAI',
-		url: 'https://api.openai.com',
-		completionUrl: '/v1/chat/completions',
-		apiKeyFn: () => get(openaiAPIKey),
-	},
-	{
-		name: 'Groq',
-		url: 'https://api.groq.com/openai',
-		completionUrl: '/v1/chat/completions',
-		apiKeyFn: () => get(groqAPIKey),
-	},
-	{
-		name: 'Mistral',
-		url: 'https://api.mistral.ai',
-		completionUrl: '/v1/chat/completions',
-		apiKeyFn: () => get(mistralAPIKey),
-	},
-	{
-		name: 'Fireworks',
-		url: 'https://api.fireworks.ai/inference',
-		completionUrl: '/v1/chat/completions',
-		apiKeyFn: () => get(fireworksAPIKey),
-	},
-	{
-		name: 'Local',
-		url: get(remoteServer).address || 'http://localhost:8081',
-		completionUrl: '/v1/chat/completions',
-		apiKeyFn: () => get(remoteServer).password,
-	},
-].filter(Boolean);
-
 // Anthropic provider:
 export const anthropicModels = [
 	{
-		id: 'claude-3-5-sonnet-20240620',
+		id: 'claude-3-5-sonnet-20241022',
 		name: 'Claude 3.5 Sonnet',
+		provider: 'Anthropic',
+		modality: 'text+image->text',
+	},
+	{
+		id: 'claude-3-5-sonnet-20240620',
+		name: 'Claude 3.5 Sonnet (older)',
+		provider: 'Anthropic',
+		modality: 'text+image->text',
+	},
+	{
+		id: 'claude-3-5-haiku-20241022',
+		name: 'Claude 3.5 Haiku',
 		provider: 'Anthropic',
 		modality: 'text+image->text',
 	},
@@ -81,6 +48,67 @@ export const anthropicModels = [
 		modality: 'text+image->text',
 	},
 ];
+
+export const providers = [
+	{
+		name: 'OpenRouter',
+		url: 'https://openrouter.ai/api',
+		completionUrl: '/v1/chat/completions',
+		modelsUrl: '/v1/models',
+		apiKeyFn: () => get(openrouterAPIKey),
+	},
+	{
+		name: 'Anthropic',
+		url: 'https://api.anthropic.com',
+		completionUrl: '/v1/messages',
+		modelsUrl: null,
+		models: anthropicModels,
+		apiKeyFn: () => get(anthropicAPIKey),
+	},
+	{
+		name: 'OpenAI',
+		url: 'https://api.openai.com',
+		completionUrl: '/v1/chat/completions',
+		modelsUrl: '/v1/models',
+		apiKeyFn: () => get(openaiAPIKey),
+	},
+	{
+		name: 'Groq',
+		url: 'https://api.groq.com/openai',
+		completionUrl: '/v1/chat/completions',
+		modelsUrl: '/v1/models',
+		apiKeyFn: () => get(groqAPIKey),
+	},
+	{
+		name: 'Mistral',
+		url: 'https://api.mistral.ai',
+		completionUrl: '/v1/chat/completions',
+		modelsUrl: '/v1/models',
+		apiKeyFn: () => get(mistralAPIKey),
+	},
+	{
+		name: 'Fireworks',
+		url: 'https://api.fireworks.ai/inference',
+		completionUrl: '/v1/chat/completions',
+		modelsUrl: '/v1/models',
+		apiKeyFn: () => get(fireworksAPIKey),
+	},
+	{
+		name: 'Ollama',
+		url: 'http://localhost:11434',
+		completionUrl: '/v1/chat/completions',
+		modelsUrl: '/api/tags',
+		responseMapperFn: (json) => {
+			return json.models.map((m) => ({
+				id: m.name,
+				name: m.name,
+				provider: 'Ollama',
+				modality: 'text->text',
+			}));
+		},
+		apiKeyFn: () => false,
+	},
+].filter(Boolean);
 
 // OpenAI provider: OpenAI doesn't provide any metadata for their models, so we have to harddcode which ones are multimodal
 export const openAIAdditionalModelsMultimodal = ['gpt-4o', 'gpt-4-turbo', 'gpt-4-turbo-2024-04-09'];
@@ -105,6 +133,7 @@ export const openAIIgnoreIds = [
 ];
 
 export const priorityOrder = [
+  { fromProvider: 'Ollama' },
 	{ fromProvider: 'Local' },
 	{
 		exactly: [
