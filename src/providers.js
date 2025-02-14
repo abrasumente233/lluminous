@@ -7,6 +7,7 @@ import {
 	mistralAPIKey,
 	anthropicAPIKey,
   fireworksAPIKey,
+  replicateAPIKey,
 } from './stores.js';
 
 export const providers = [
@@ -47,6 +48,12 @@ export const providers = [
 		apiKeyFn: () => get(fireworksAPIKey),
 	},
 	{
+		name: 'Replicate',
+		url: 'https://openai-proxy.replicate.com',
+		completionUrl: '/v1/chat/completions',
+		apiKeyFn: () => get(replicateAPIKey),
+	},
+	{
 		name: 'Local',
 		url: get(remoteServer).address || 'http://localhost:8081',
 		completionUrl: '/v1/chat/completions',
@@ -81,6 +88,17 @@ export const anthropicModels = [
 		modality: 'text+image->text',
 	},
 ];
+
+// Replicate provider:
+export const replicateModels = [
+	{
+		id: 'anthropic/claude-3.5-sonnet',
+		name: 'Replicate/Claude 3.5 Sonnet',
+		provider: 'Replicate',
+		modality: 'text+image->text',
+	},
+];
+
 
 // OpenAI provider: OpenAI doesn't provide any metadata for their models, so we have to harddcode which ones are multimodal
 export const openAIAdditionalModelsMultimodal = ['gpt-4o', 'gpt-4-turbo', 'gpt-4-turbo-2024-04-09'];
@@ -203,6 +221,7 @@ export const priorityOrder = [
 		],
 	},
 	{ fromProvider: 'Fireworks' },
+	{ fromProvider: 'Replicate' },
 	{ fromProvider: 'Mistral' },
 	{ startsWith: ['mistralai/'] },
 ];

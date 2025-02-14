@@ -25,6 +25,7 @@ export const anthropicAPIKey = persisted('anthropicAPIKey', '');
 export const groqAPIKey = persisted('groqAPIKey', '');
 export const mistralAPIKey = persisted('mistralAPIKey', '');
 export const fireworksAPIKey = persisted('fireworksAPIKey', '');
+export const replicateAPIKey = persisted('replicateAPIKey', '');
 
 export const remoteServer = persisted('remoteServer', { address: '', password: '' });
 export const toolSchema = persisted('toolSchemaGroups', []);

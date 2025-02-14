@@ -18,6 +18,7 @@
 		openAIAdditionalModelsMultimodal,
 		openAIImageGenerationModels,
 		anthropicModels,
+    replicateModels,
 		openAIIgnoreIds,
 		priorityOrder,
 		thinkingModels,
@@ -932,6 +933,10 @@ ${file.text}
 				// Anthropic doesn't support the /v1/models endpoint, so we hardcode it:
 				if (provider.name === 'Anthropic') {
 					return anthropicModels;
+				}
+
+				if (provider.name === 'Replicate') {
+					return replicateModels;
 				}
 
 				return fetch(`${provider.url}/v1/models`, {

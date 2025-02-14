@@ -3,6 +3,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import {
     fireworksAPIKey,
+    replicateAPIKey,
 		anthropicAPIKey,
 		config,
 		groqAPIKey,
@@ -107,9 +108,7 @@
 						placeholder="Enter your API key"
 						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
 						on:change={() => {
-							if ($openrouterAPIKey.length === 73 || $openrouterAPIKey.length === 0) {
-								dispatch('fetchModels');
-							}
+						  dispatch('fetchModels');
 						}}
 					/></label
 				>
@@ -121,9 +120,7 @@
 						placeholder="Enter your API key"
 						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
 						on:change={() => {
-							if ($anthropicAPIKey.length === 108 || $anthropicAPIKey.length === 0) {
-								dispatch('fetchModels');
-							}
+              dispatch('fetchModels');
 						}}
 					/></label
 				>
@@ -135,9 +132,7 @@
 						placeholder="Enter your API key"
 						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
 						on:change={() => {
-							if ($openaiAPIKey.length === 56 || $openaiAPIKey.length === 0) {
-								dispatch('fetchModels');
-							}
+              dispatch('fetchModels');
 						}}
 					/></label
 				>
@@ -149,9 +144,7 @@
 						placeholder="Enter your API key"
 						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
 						on:change={() => {
-							if ($groqAPIKey.length === 56 || $groqAPIKey.length === 0) {
-								dispatch('fetchModels');
-							}
+              dispatch('fetchModels');
 						}}
 					/></label
 				>
@@ -163,9 +156,7 @@
 						placeholder="Enter your API key"
 						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
 						on:change={() => {
-							if ($mistralAPIKey.length === 32 || $mistralAPIKey.length === 0) {
-								dispatch('fetchModels');
-							}
+              dispatch('fetchModels');
 						}}
 					/></label
 				>
@@ -177,9 +168,19 @@
 						placeholder="Enter your API key"
 						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
 						on:change={() => {
-							if ($fireworksAPIKey.length === 48 || $fireworksAPIKey.length === 0) {
-								dispatch('fetchModels');
-							}
+              dispatch('fetchModels');
+						}}
+					/></label
+				>
+				<label class="flex flex-col text-[10px] uppercase tracking-wide">
+					<span class="mb-2 ml-[3px]">Replicate API Key</span>
+					<input
+						type="text"
+						bind:value={$replicateAPIKey}
+						placeholder="Enter your API key"
+						class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors placeholder:text-gray-500 focus:border-slate-400 focus:outline-none"
+						on:change={() => {
+              dispatch('fetchModels');
 						}}
 					/></label
 				>
