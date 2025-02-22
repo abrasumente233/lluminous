@@ -18,7 +18,7 @@
 		openAIAdditionalModelsMultimodal,
 		openAIImageGenerationModels,
 		anthropicModels,
-    replicateModels,
+		replicateModels,
 		openAIIgnoreIds,
 		priorityOrder,
 		thinkingModels,
@@ -1222,6 +1222,11 @@ ${file.text}
 			event.preventDefault();
 			newConversation();
 		}
+
+		if (event.key === 's' && (event.metaKey || event.ctrlKey) && event.shiftKey) {
+			event.preventDefault();
+			historyOpen = !historyOpen;
+		}
 	}}
 />
 
@@ -1297,8 +1302,8 @@ ${file.text}
 		<aside
 			data-sidebar="history"
 			class="{historyOpen
-				? ''
-				: '-translate-x-full'} fixed top-0 z-[100] flex h-full w-[230px] flex-col border-r bg-white pl-3 pt-4 transition-transform duration-500 ease-in-out md:static md:translate-x-0"
+				? 'translate-x-0'
+				: '-translate-x-full'} fixed top-0 z-[100] flex h-full w-[230px] flex-col border-r bg-white pl-3 pt-4 transition-transform duration-200 ease-in-out md:w-[230px]"
 		>
 			<div class="mb-1 pr-3">
 				<button
