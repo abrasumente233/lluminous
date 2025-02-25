@@ -120,7 +120,9 @@ export async function complete(convo, onupdate, onabort) {
 							? param.maxTokens
 							: convo.model.provider === 'Anthropic'
 								? 4096
-								: undefined,
+							  : convo.model.id.includes('deepseek-r1')
+								  ? 65536
+						  		: undefined,
 					tools: activeSchema.length > 0 ? activeSchema : undefined,
 					system,
 					messages,
