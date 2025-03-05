@@ -1394,6 +1394,13 @@ ${file.text}
 		</aside>
 		<div class="flex flex-1 flex-col">
 			<div class="relative hidden items-center px-2 py-2 md:flex">
+				<button
+					data-trigger="history"
+					class="flex rounded-full p-2 transition-colors hover:bg-gray-100"
+					on:click={() => (historyOpen = !historyOpen)}
+				>
+					<Icon icon={feMenu} strokeWidth={3} class="m-auto h-4 w-4 text-slate-700" />
+				</button>
 				{#if !convo.shared}
 					<ModelSelector
 						{convo}
