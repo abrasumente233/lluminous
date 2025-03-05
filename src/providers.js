@@ -8,6 +8,7 @@ import {
 	anthropicAPIKey,
 	fireworksAPIKey,
 	replicateAPIKey,
+	sambanovaAPIKey,
 } from './stores.js';
 
 export const providers = [
@@ -52,6 +53,12 @@ export const providers = [
 		url: 'https://garbage.tea.lat',
 		completionUrl: '/v1/chat/completions',
 		apiKeyFn: () => get(replicateAPIKey),
+	},
+	{
+		name: 'SambaNova',
+		url: 'https://api.sambanova.ai',
+		completionUrl: '/v1/chat/completions',
+		apiKeyFn: () => get(sambanovaAPIKey),
 	},
 	{
 		name: 'Local',
@@ -281,6 +288,10 @@ export function formatModelName(model, short = false) {
 		return model.provider + ': ' + name.split(': ')[1];
 	}
 	if (disambiguate) {
+		return model.provider + ': ' + name;
+	}
+
+	if (model.provider === 'SambaNova') {
 		return model.provider + ': ' + name;
 	}
 

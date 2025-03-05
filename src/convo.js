@@ -85,7 +85,8 @@ export async function complete(convo, onupdate, onabort) {
 					convo.model.provider === 'Groq' ||
 					convo.model.provider === 'Mistral' ||
 					convo.model.provider === 'Fireworks' ||
-					convo.model.provider === 'Replicate'
+					convo.model.provider === 'Replicate' ||
+					convo.model.provider === 'SambaNova'
 						? {
 								Authorization: `Bearer ${provider.apiKeyFn()}`,
 							}
@@ -111,7 +112,8 @@ export async function complete(convo, onupdate, onabort) {
 					temperature: param.temperature,
 					min_p: param.min_p,
 					top_p: param.top_p,
-					top_k: param.top_k,
+					top_k: convo.model.provider === 'SambaNova' && param.top_k == 0 ?
+						     65536 : param.top_k,
 					repetition_penalty: param.repetition_penalty,
 					presence_penalty: param.presence_penalty,
 					frequency_penalty: param.frequency_penalty,
