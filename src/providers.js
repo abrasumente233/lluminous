@@ -100,13 +100,13 @@ export const anthropicModels = [
 export const replicateModels = [
 	{
 		id: 'claude-3.5-sonnet',
-		name: 'Replicate: Claude 3.5 Sonnet',
+		name: 'Claude 3.5 Sonnet',
 		provider: 'Replicate',
 		modality: 'text->text',
 	},
 	{
 		id: 'claude-3.7-sonnet',
-		name: 'Replicate: Claude 3.7 Sonnet',
+		name: 'Claude 3.7 Sonnet',
 		provider: 'Replicate',
 		modality: 'text->text',
 	},
@@ -292,6 +292,10 @@ export function formatModelName(model, short = false) {
 	}
 
 	if (model.provider === 'SambaNova') {
+		return model.provider + ': ' + name;
+	}
+
+	if (model.provider === 'Replicate') {
 		return model.provider + ': ' + name;
 	}
 
